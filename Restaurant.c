@@ -7,7 +7,7 @@ int main()
 
     int choice, qty;
     float total, itemTotal;
-    char more, newOrder;
+    char newOrder;
 
     char items[10][30] = {
         "Burger","Pizza","Momo","Sandwich","Chowmein",
@@ -54,22 +54,27 @@ int main()
 
         fprintf(fp,"\n====== TABLE %d ======\n",tableNo);
 
-        /* ORDERING FOOD */
-        do
+        /* DISPLAY MENU */
+        printf("\n----------- MENU -----------\n");
+        for(int i=0;i<10;i++)
         {
-            printf("\n----------- MENU -----------\n");
+            printf("%d. %-15s Rs %.2f\n",i+1,items[i],price[i]);
+        }
 
-            for(int i=0;i<10;i++)
-            {
-                printf("%d. %-15s Rs %.2f\n",i+1,items[i],price[i]);
-            }
+        /* MULTIPLE ITEM ORDER AT ONCE */
+        int n;
+        printf("\nHow many different items do you want to order? ");
+        scanf("%d",&n);
 
-            printf("Enter your choice (1-10): ");
+        for(int i=0; i<n; i++)
+        {
+            printf("\nEnter item number (1-10): ");
             scanf("%d",&choice);
 
             if(choice < 1 || choice > 10)
             {
-                printf("Invalid choice! Please choose from menu.\n");
+                printf("Invalid choice! Try again.\n");
+                i--;   // retry same iteration
                 continue;
             }
 
@@ -84,11 +89,7 @@ int main()
 
             fprintf(fp,"%s x %d = Rs %.2f\n",
                     items[choice-1], qty, itemTotal);
-
-            printf("Order more? (y/n): ");
-            scanf(" %c",&more);
-
-        } while(more=='y' || more=='Y');
+        }
 
         /* BILL */
         printf("\n=========== BILL ===========\n");
